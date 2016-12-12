@@ -136,7 +136,7 @@ public class EGONotificaService extends Service {
                 public void run() {
                     Toast.makeText(EGONotificaService.this, "eGO" ,Toast.LENGTH_LONG).show();
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    Ringtone r = RingtoneManager.getRingtone(EGONotificaService.this, notification);
                     r.play();
                 }
             });
