@@ -20,8 +20,10 @@ public class EgoNotificacao extends CordovaPlugin {
         } else if (action.equals("ativar")) {
             String message = args.getString(0);
             this.ativar(message, callbackContext);
+            return true;
         } else if (action.equals("desativar")) {
             this.desativar(callbackContext);
+            return true;
         }
         return false;
     }
