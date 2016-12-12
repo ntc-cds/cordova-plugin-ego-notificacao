@@ -15,11 +15,13 @@ import android.widget.Toast;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 
 
 public class EGONotificaService extends Service {
 
-    static final long TIMER = 5000;
+    static final long TIMER = 5 * 60 * 1000;
+    private Handler handler;
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -33,6 +35,8 @@ public class EGONotificaService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        handler = new Handler();
+
         if (mls == null) {
             run = true;
             mls = new MyLoopService();
@@ -127,10 +131,15 @@ public class EGONotificaService extends Service {
 
     void heads_up_notify() {
         try {
-            android.widget.Toast.makeText(getApplicationContext(), "RUN", Toast.LENGTH_SHORT).show();
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(EGONotificaService.this, "eGO" ,Toast.LENGTH_LONG).show();
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    r.play();
+                }
+            });
         } catch (Throwable e) {
             e.printStackTrace();
         }
