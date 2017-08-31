@@ -13,12 +13,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+
+
+
 public class SincronizacaoService extends IntentService{
 
     static String SERVICE_URL =  null;
     static String IMEI = null;
+    static Boolean IS_CACHED = false;
 
     final String SHARED_FILE = "ego_sincronizacao";
+    final String CACHED = "ego_get_cached";
     final String PRIMEIRA_EXECUCAO = "ego_primeira_execucao";
     final String SINCRONIZANDO = "ego_sincronizando";
     final String SINC_COMPLETA = "/sincronizar/dados/completa";
@@ -36,6 +41,18 @@ public class SincronizacaoService extends IntentService{
         if(sincronizando()){
             //do nothing
             return;
+        }
+
+        if(IS_CACHED){
+            String data = getDataCached();
+            if(data != null){
+                EgoNotificacao.sendOkResult(data);
+                removeCache();
+                SincronizacaoService.IS_CACHED = false;
+                return;
+            }
+        }else{
+            removeCache();
         }
 
         String imei = getImei();
@@ -62,9 +79,10 @@ public class SincronizacaoService extends IntentService{
             result.close();
 
             String res = result.toString().trim();
-            Log.i(LOG_TAG, "RESPONSE: " + res);
+            Log.i(LOG_TAG, "RESPONSE: " + urlConnection.getResponseCode());
 
             if(res.contains("\"status\":\"OK\"")){
+                salvaCache(res);
                 confirmarRecebimento(imei);
                 salvaPrimeiraExecucao();
                 EgoNotificacao.sendOkResult(res);
@@ -150,7 +168,27 @@ public class SincronizacaoService extends IntentService{
         editor.apply();
     }
 
+    private void salvaCache(String data){
+        SharedPreferences sp = sharedPreferences();
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(CACHED, data);
+        editor.apply();
+    }
+
+    private void removeCache(){
+        SharedPreferences sp = sharedPreferences();
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(CACHED);
+        editor.apply();
+    }
+
+    private String getDataCached(){
+        SharedPreferences sp = sharedPreferences();
+        return sp.getString(CACHED, null);
+    }
+
     private SharedPreferences sharedPreferences(){
         return this.getSharedPreferences(SHARED_FILE, MODE_PRIVATE);
     }
 }
+

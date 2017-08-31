@@ -32,8 +32,9 @@ public class EgoNotificacao extends CordovaPlugin {
         }else if(action.equals("sincronizar")){
             String url = args.getString(0);
             String imei = args.getString(1);
+            boolean cached = args.getString(2);
 
-            this.sincronizar(url, imei);
+            this.sincronizar(url, imei, cached);
             return true;                
         }
 
@@ -52,9 +53,10 @@ public class EgoNotificacao extends CordovaPlugin {
         }
     }
 
-    private void sincronizar(String url, String imei){
+    private void sincronizar(String url, String imei, boolean cached){
         SincronizacaoService.SERVICE_URL = url;
         SincronizacaoService.IMEI = imei;
+        SincronizacaoService.IS_CACHED = cached;
 
         android.content.Context context = this.cordova.getActivity().getApplicationContext();
         context.startService(new android.content.Intent(context, SincronizacaoService.class));
