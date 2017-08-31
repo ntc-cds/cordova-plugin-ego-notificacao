@@ -32,7 +32,7 @@ public class EgoNotificacao extends CordovaPlugin {
         }else if(action.equals("sincronizar")){
             String url = args.getString(0);
             String imei = args.getString(1);
-            boolean cached = args.getString(2);
+            boolean cached = args.getBoolean(2);
 
             this.sincronizar(url, imei, cached);
             return true;                
