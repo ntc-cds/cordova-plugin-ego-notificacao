@@ -12,10 +12,6 @@
                 <param name="android-package" value="cordova.plugins.EgoNotificacao"/>
                 <param name="onload" value="true" />
             </feature>
-        </config-file>
-
-        <config-file parent="/manifest" target="AndroidManifest.xml">
-            <application android:largeHeap="true"></application>
         </config-file>    
 
         <config-file parent="/*" target="AndroidManifest.xml">
