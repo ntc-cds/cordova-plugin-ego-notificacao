@@ -1,4 +1,4 @@
-package br.com.cds.egosinc;
+package cordova.plugins;
 
 import android.app.IntentService;
 import android.content.Intent;
