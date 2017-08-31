@@ -57,7 +57,12 @@ public class SincronizacaoService extends IntentService{
                 result.write(buffer, 0, length);
             }
 
+            result.flush();
+            result.close();
+
             String res = result.toString().trim();
+            Log.i(LOG_TAG, "RESPONSE: " + res);
+
             if(res.contains("\"status\":\"OK\"")){
                 confirmarRecebimento(imei);
                 salvaPrimeiraExecucao();
@@ -80,16 +85,36 @@ public class SincronizacaoService extends IntentService{
         return SERVICE_URL + url + "?imei=" + imei;
     }
 
-    private String getConfirmarRecebimentoUrl(String imei){
-        return SERVICE_URL + SINC_CONFIRMAR + "?imei=" + imei;
+    private String getConfirmarRecebimentoUrl(){
+        return SERVICE_URL + SINC_CONFIRMAR;
     }
 
     private void confirmarRecebimento(String imei) throws IOException {
-        String url = getConfirmarRecebimentoUrl(imei);
+        String url = getConfirmarRecebimentoUrl();
         HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setDoOutput(true);
+        urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-        Scanner scanner = new Scanner(urlConnection.getInputStream()).useDelimiter("\\A");
-        String result = scanner.hasNext() ? scanner.next() : "";
+        OutputStream data = urlConnection.getOutputStream();
+        data.write(("{\"imei\": \""+imei+ "\"}").getBytes());
+        data.close();
+
+        InputStream in = urlConnection.getInputStream();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[512];
+        int length;
+
+        while((length = in.read(buffer)) != -1) {
+            os.write(buffer, 0, length);
+        }
+
+        in.close();
+        os.flush();
+        os.close();
+
+        String result = os.toString();
+        Log.i(LOG_TAG, url + " -- " + result);
 
         if(!result.contains("\"status\":\"OK\"")){
             throw new IOException("REQUEST GET URL "+ url + " FAILED ");

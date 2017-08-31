@@ -14,6 +14,10 @@
             </feature>
         </config-file>
 
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+            <application android:largeHeap="true"></application>
+        </config-file>    
+
         <config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
