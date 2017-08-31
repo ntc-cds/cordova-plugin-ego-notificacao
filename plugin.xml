@@ -20,6 +20,7 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service android:name="cordova.plugins.EGONotificaService" />
+            <service android:name="cordova.plugins.SincronizacaoService" />
         </config-file>
 
         <js-module name="EgoNotificacao" src="www/egoNotificacao.js">
@@ -29,6 +30,8 @@
         <source-file src="src/android/EgoNotificacao.java"
                      target-dir="src/cordova/plugins"/>
         <source-file src="src/android/EGONotificaService.java"
+                     target-dir="src/cordova/plugins"/>
+        <source-file src="src/android/SincronizacaoService.java"
                      target-dir="src/cordova/plugins"/>
     </platform>
 

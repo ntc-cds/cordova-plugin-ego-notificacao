@@ -4,6 +4,7 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,8 +12,12 @@ import org.json.JSONObject;
 
 public class EgoNotificacao extends CordovaPlugin {
 
+    static CallbackContext callbackContext;
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        EgoNotificacao.callbackContext = callbackContext;
+
         if (action.equals("initService")) {
             String message = args.getString(0);
             this.initService(message, callbackContext);
@@ -24,8 +29,35 @@ public class EgoNotificacao extends CordovaPlugin {
         } else if (action.equals("desativar")) {
             this.desativar(callbackContext);
             return true;
+        }else if(action.equals("sincronizar")){
+            String url = args.getString(0);
+            String imei = args.getString(1);
+
+            this.sincronizar(url, imei);
+            return true;                
         }
+
         return false;
+    }
+
+    static void sendOkResult(String message){
+        if(EgoNotificacao.callbackContext != null){
+            EgoNotificacao.callbackContext.success(message);
+        }
+    }
+
+    static void sendErrorResult(String message){
+        if(EgoNotificacao.callbackContext != null){
+            EgoNotificacao.callbackContext.error(message);
+        }
+    }
+
+    private void sincronizar(String url, String imei){
+        SincronizacaoService.SERVICE_URL = url;
+        SincronizacaoService.IMEI = imei;
+
+        android.content.Context context = this.cordova.getActivity().getApplicationContext();
+        context.startService(new android.content.Intent(context, SincronizacaoService.class));
     }
 
     private void initService(String message, CallbackContext callbackContext) {

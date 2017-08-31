@@ -12,3 +12,6 @@ exports.desativar = function(arg0, success, error){
     exec(success, error, "EgoNotificacao", "desativar", []);
 };
 
+exports.sincronizar = function(arg0, arg1, success, error){
+	exec(success, error, "EgoNotificacao", "sincronizar", [arg0, arg1]);
+};
