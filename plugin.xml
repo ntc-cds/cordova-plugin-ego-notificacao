@@ -13,6 +13,10 @@
                 <param name="onload" value="true" />
             </feature>
         </config-file>    
+        
+        <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
+            <application android:largeHeap="true"/>
+        </edit-config>
 
         <config-file parent="/*" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.INTERNET" />
