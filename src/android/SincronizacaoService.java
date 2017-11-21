@@ -75,7 +75,7 @@ public class SincronizacaoService extends IntentService{
                 salvaPrimeiraExecucao();
                 EgoNotificacao.sendOkResult(res);
             }else{
-                EgoNotificacao.sendErroNResult(res);
+                EgoNotificacao.sendErrorResult(res);
             }
 
             in.close();
