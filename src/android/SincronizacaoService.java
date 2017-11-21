@@ -43,18 +43,6 @@ public class SincronizacaoService extends IntentService{
             return;
         }
 
-        if(IS_CACHED){
-            String data = getDataCached();
-            if(data != null){
-                EgoNotificacao.sendOkResult(data);
-                removeCache();
-                SincronizacaoService.IS_CACHED = false;
-                return;
-            }
-        }else{
-            removeCache();
-        }
-
         String imei = getImei();
         String url = getSincronizacaoUrl(imei);
         long startTime = System.currentTimeMillis();
@@ -87,7 +75,7 @@ public class SincronizacaoService extends IntentService{
                 salvaPrimeiraExecucao();
                 EgoNotificacao.sendOkResult(res);
             }else{
-                EgoNotificacao.sendErrorResult(res);
+                EgoNotificacao.sendErroNResult(res);
             }
 
             in.close();
@@ -100,7 +88,7 @@ public class SincronizacaoService extends IntentService{
     }
 
     private String getSincronizacaoUrl(String imei){
-        String url = primeiraExecucao() ? SINC_COMPLETA : SINC_PARCIAL;
+        String url = SINC_PARCIAL;
         return SERVICE_URL + url + "?imei=" + imei;
     }
 
