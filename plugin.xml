@@ -8,7 +8,7 @@
     <platform name="android">
 
         <config-file parent="/*" target="config.xml">
-            <feature name="egoNotificacao" >
+            <feature name="EgoNotificacao" >
                 <param name="android-package" value="cordova.plugins.EgoNotificacao"/>
                 <param name="onload" value="true" />
             </feature>
@@ -23,10 +23,9 @@
             <service android:name="cordova.plugins.SincronizacaoService" />
         </config-file>
 
-        <js-module name="egoNotificacao" src="www/egoNotificacao.js">
+        <js-module name="EgoNotificacao" src="www/egoNotificacao.js">
             <clobbers target="cordova.plugins.egoNotificacao"/>
         </js-module>
-
 
         <source-file src="src/android/EgoNotificacao.java"
                      target-dir="src/cordova/plugins"/>
