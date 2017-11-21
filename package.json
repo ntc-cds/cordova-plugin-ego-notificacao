@@ -5,11 +5,5 @@
   "name": "cordova.plugins.egoNotificacao",
   "optionalDependencies": {},
   "readme": "ERROR: No README data found!",
-  "version": "1.0.0",
-  "cordova": {
-    "id": "cordova.plugins.egoNotificacao",
-    "platforms": [
-      "android"
-    ]
-  }
+  "version": "1.0.0"
 }
