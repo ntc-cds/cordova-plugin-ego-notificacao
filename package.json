@@ -3,7 +3,6 @@
   "description": "A plugin ",
   "devDependencies": {},
   "name": "cordova.plugins.egoNotificacao",
-  "cordova_name": "egoNotificacao",
   "optionalDependencies": {},
   "readme": "ERROR: No README data found!",
   "version": "1.0.0",
