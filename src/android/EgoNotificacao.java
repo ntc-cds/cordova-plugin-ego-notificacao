@@ -1,5 +1,6 @@
 package cordova.plugins;
 
+import android.util.Log;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -17,6 +18,8 @@ public class EgoNotificacao extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         EgoNotificacao.callbackContext = callbackContext;
+
+        Log.i("TESTEEEE", "SERVICE TESTE" + args);
 
         if (action.equals("initService")) {
             String message = args.getString(0);
