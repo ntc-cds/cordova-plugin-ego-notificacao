@@ -55,7 +55,7 @@ public class SincronizacaoService extends IntentService{
             String res = result.toString().trim();
             Log.i(LOG_TAG, "RESPONSE: " + urlConnection.getResponseCode());
 
-            if(res.contains("\"status\":\"OK\"")){
+            if(urlConnection.getResponseCode() == 200){
                 EgoNotificacao.sendOkResult(res);
             }else{
                 EgoNotificacao.sendErrorResult(res);
