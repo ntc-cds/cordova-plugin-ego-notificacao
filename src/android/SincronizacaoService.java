@@ -77,7 +77,7 @@ public class SincronizacaoService extends IntentService{
     private String getSincronizacaoUrl(Long lastUpdate){
         String url = SINC_PARCIAL;
         if(lastUpdate == 0 || lastUpdate == null){
-            return SERVICE_URL + url + "?ultima_sincronizacao=null"
+            return SERVICE_URL + url + "?ultima_sincronizacao=null";
         }
         return SERVICE_URL + url + "?ultima_sincronizacao=" + lastUpdate;
     }
