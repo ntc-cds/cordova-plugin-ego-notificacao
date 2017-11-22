@@ -29,11 +29,16 @@ public class EgoNotificacao extends CordovaPlugin {
         } else if (action.equals("desativar")) {
             this.desativar(callbackContext);
             return true;
-        }else if(action.equals("sincronizar")){
+        }else if(action.equals("sincronizar")) {
             String url = args.getString(0);
-            Long lastUpdate = args.getLong(1);
 
-            this.sincronizar(url, lastUpdate);
+            if (!args.isNull(1)){
+                Long lastUpdate = args.getLong(1);
+                this.sincronizar(url, lastUpdate);
+            }else{
+                this.sincronizar(url, null);
+            }
+
             return true;                
         }
 
